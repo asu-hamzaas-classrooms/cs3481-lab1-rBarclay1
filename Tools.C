@@ -111,7 +111,16 @@ uint64_t Tools::getByte(uint64_t source, int32_t byteNum)
  */
 uint64_t Tools::getBits(uint64_t source, int32_t low, int32_t high)
 {
-  return 0;
+  if (low < 0 || high > 63)
+  {
+    return 0;
+  }
+
+
+  uint64_t shifted = source >> low;
+  uint64_t result = (shifted << (63 - (high - low)) >> (63 - (high - low)));
+
+  return result;
 }
 
 
@@ -139,7 +148,15 @@ uint64_t Tools::getBits(uint64_t source, int32_t low, int32_t high)
  */
 uint64_t Tools::setBits(uint64_t source, int32_t low, int32_t high)
 {
-  return 0;
+  uint64_t result = 0;
+  if (low < 0 || high > 63)
+  {
+    return 0;
+  }
+  uint64_t mask = ((1ULL << (high - low + 1)) - 1) << low;
+  result = source | mask;
+  printf(" %lx ", result);
+  return result;
 }
 
 /**
